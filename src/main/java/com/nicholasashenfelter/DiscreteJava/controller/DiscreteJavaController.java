@@ -27,11 +27,15 @@ public class DiscreteJavaController {
         return summationService.inclusionExclusionSum(request.getRange(), request.getDivisors());
     }
 
+    // Adds all numbers within the fibonacci sequence given
+    // A limit (the max fibonacci value, not sequence position
+    // A sum type, either even, odd, or if both passed then the total of all values
+    // Inclusivity, whether the limit should be added to the sum or not, only applies to edge cases where limit falls on a sequence number.
     @PostMapping({"/fibonacci", "/fibonacciSums"})
     @ResponseBody
     public BigInteger fibonacciSums(@RequestBody FibonacciRequest request){
         validationHandler.validateFibonacciSumRequest(request);
-        return summationService.fibonacciSums(request.getRange(), request.getSumType(), request.isInclusive());
+        return summationService.fibonacciSums(request.getFibLimit(), request.getSumType(), request.getIsInclusive());
     }
 
     @GetMapping("/")
