@@ -2,6 +2,7 @@ package com.nicholasashenfelter.DiscreteJava.controller;
 
 import com.nicholasashenfelter.DiscreteJava.ValidationHandler.ValidationHandler;
 import com.nicholasashenfelter.DiscreteJava.model.CalculationRequest;
+import com.nicholasashenfelter.DiscreteJava.model.FibonacciRequest;
 import com.nicholasashenfelter.DiscreteJava.service.SummationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,13 @@ public class DiscreteJavaController {
         validationHandler.validateCalculationRequest(request);
         //TODO: Wrap this in a response object to pass message along
         return summationService.inclusionExclusionSum(request.getRange(), request.getDivisors());
+    }
+
+    @PostMapping({"/fibonacci", "/fibonacciSums"})
+    @ResponseBody
+    public BigInteger fibonacciSums(@RequestBody FibonacciRequest request){
+        validationHandler.validateFibonacciSumRequest(request);
+        return summationService.fibonacciSums(request.getRange(), request.getSumType(), request.isInclusive());
     }
 
     @GetMapping("/")
