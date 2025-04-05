@@ -52,6 +52,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Fibonacci Summation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fibLimit\": 8,\r\n    \"sumType\": [\"EVEN\", \"BAD\"],\r\n    \"isInclusive\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/fibonacci",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fibonacci"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

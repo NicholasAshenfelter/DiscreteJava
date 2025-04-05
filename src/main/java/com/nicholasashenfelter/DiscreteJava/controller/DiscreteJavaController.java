@@ -6,6 +6,8 @@ import com.nicholasashenfelter.DiscreteJava.model.FibonacciRequest;
 import com.nicholasashenfelter.DiscreteJava.service.SummationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -21,10 +23,10 @@ public class DiscreteJavaController {
 
     @PostMapping("/calculate")
     @ResponseBody
-    public BigInteger calculate(@RequestBody CalculationRequest request) {
+    public ResponseEntity<BigInteger> calculate(@RequestBody CalculationRequest request) {
         validationHandler.validateCalculationRequest(request);
-        //TODO: Wrap this in a response object to pass message along
-        return summationService.inclusionExclusionSum(request.getRange(), request.getDivisors());
+        BigInteger response = summationService.inclusionExclusionSum(request.getRange(), request.getDivisors());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // Adds all numbers within the fibonacci sequence given
@@ -33,9 +35,10 @@ public class DiscreteJavaController {
     // Inclusivity, whether the limit should be added to the sum or not, only applies to edge cases where limit falls on a sequence number.
     @PostMapping({"/fibonacci", "/fibonacciSums"})
     @ResponseBody
-    public BigInteger fibonacciSums(@RequestBody FibonacciRequest request){
+    public ResponseEntity<BigInteger> fibonacciSums(@RequestBody FibonacciRequest request){
         validationHandler.validateFibonacciSumRequest(request);
-        return summationService.fibonacciSums(request.getFibLimit(), request.getSumType(), request.getIsInclusive());
+        BigInteger response = summationService.fibonacciSums(request.getFibLimit(), request.getSumType(), request.getIsInclusive());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/")

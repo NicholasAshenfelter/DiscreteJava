@@ -4,6 +4,7 @@ import com.nicholasashenfelter.DiscreteJava.model.CalculationRequest;
 
 import com.nicholasashenfelter.DiscreteJava.model.FibonacciRequest;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ValidationHandler {
         Set<ConstraintViolation<CalculationRequest>> violations = validator.validate(calculationRequest);
         if(!CollectionUtils.isEmpty(violations)){
             for(ConstraintViolation violation: violations){
-                throw new ViolationException(violation.getMessage());
+                throw new ConstraintViolationException(violations);
             }
         }
     }
@@ -35,7 +36,7 @@ public class ValidationHandler {
         Set<ConstraintViolation<FibonacciRequest>> violations = validator.validate(fibonacciRequest);
         if(!CollectionUtils.isEmpty(violations)){
             for(ConstraintViolation violation: violations){
-                throw new ViolationException(violation.getMessage());
+                throw new ConstraintViolationException(violations);
             }
         }
     }
