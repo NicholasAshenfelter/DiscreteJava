@@ -3,6 +3,8 @@ package com.nicholasashenfelter.DiscreteJava.controller;
 import com.nicholasashenfelter.DiscreteJava.ValidationHandler.ValidationHandler;
 import com.nicholasashenfelter.DiscreteJava.model.CalculationRequest;
 import com.nicholasashenfelter.DiscreteJava.model.FibonacciRequest;
+import com.nicholasashenfelter.DiscreteJava.service.FibonacciSumService;
+import com.nicholasashenfelter.DiscreteJava.service.GreatestPrimeFactorService;
 import com.nicholasashenfelter.DiscreteJava.service.SummationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +21,10 @@ import java.math.BigInteger;
 public class DiscreteJavaController {
 
     private final ValidationHandler validationHandler;
+
     private final SummationService summationService;
+    private final FibonacciSumService fibonacciSumService;
+    private final GreatestPrimeFactorService greatestPrimeFactorService;
 
     @PostMapping("/calculate")
     @ResponseBody
@@ -37,7 +42,14 @@ public class DiscreteJavaController {
     @ResponseBody
     public ResponseEntity<BigInteger> fibonacciSums(@RequestBody FibonacciRequest request){
         validationHandler.validateFibonacciSumRequest(request);
-        BigInteger response = summationService.fibonacciSums(request.getFibLimit(), request.getSumType(), request.getIsInclusive());
+        BigInteger response = fibonacciSumService.fibonacciSums(request.getFibLimit(), request.getSumType(), request.getIsInclusive());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping({"/greatestPrimeFactor/{toFactor}"})
+    @ResponseBody
+    public ResponseEntity<BigInteger> greatestPrimeFactor(@PathVariable BigInteger toFactor){
+        BigInteger response = greatestPrimeFactorService.largestPrimeFactor(toFactor);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
