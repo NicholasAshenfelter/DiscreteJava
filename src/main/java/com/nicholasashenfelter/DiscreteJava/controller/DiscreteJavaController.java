@@ -4,6 +4,7 @@ import com.nicholasashenfelter.DiscreteJava.ValidationHandler.ValidationHandler;
 import com.nicholasashenfelter.DiscreteJava.model.CalculationRequest;
 import com.nicholasashenfelter.DiscreteJava.model.FibonacciRequest;
 import com.nicholasashenfelter.DiscreteJava.service.FibonacciSumService;
+import com.nicholasashenfelter.DiscreteJava.service.GetPrimeService;
 import com.nicholasashenfelter.DiscreteJava.service.GreatestPrimeFactorService;
 import com.nicholasashenfelter.DiscreteJava.service.SummationService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class DiscreteJavaController {
     private final SummationService summationService;
     private final FibonacciSumService fibonacciSumService;
     private final GreatestPrimeFactorService greatestPrimeFactorService;
+    private final GetPrimeService getPrimeService;
 
     @PostMapping("/calculate")
     @ResponseBody
@@ -50,6 +52,14 @@ public class DiscreteJavaController {
     @ResponseBody
     public ResponseEntity<BigInteger> greatestPrimeFactor(@PathVariable BigInteger toFactor){
         BigInteger response = greatestPrimeFactorService.largestPrimeFactor(toFactor);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping({"/nthPrime/{primePos}"})
+    @ResponseBody
+    public ResponseEntity<Integer> nthPrime(@PathVariable int primePos){
+        //TODO: Determine best way to have validation for PathVariables. Want to ensure no strings.
+        int response = GetPrimeService.getPrimes(Math.abs(primePos));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

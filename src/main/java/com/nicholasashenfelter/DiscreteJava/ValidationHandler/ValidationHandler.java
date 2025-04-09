@@ -40,4 +40,10 @@ public class ValidationHandler {
             }
         }
     }
+
+//    public void validateNthPrime(int n){
+//        if(n < 0 || n > 1000000){
+//            throw new ConstraintViolationException();
+//        }
+//    }
 }
